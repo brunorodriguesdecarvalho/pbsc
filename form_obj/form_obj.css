@@ -1,0 +1,21 @@
+form {
+    width: 350px;
+}
+
+input.objNome {
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+}
+
+p.rotulo {
+    font-weight: bold;
+}
+
+button.Enviar {
+    width: 100%;
+}
+
