@@ -12,9 +12,13 @@ app.use(bodyParser.urlencoded({extended:false})) //???
 //link para o db, incluindo username e password
 var dbUrl = 'mongodb+srv://pbsc:wlmvccE6paAmpBNg@dbpbsc-mzrlo.mongodb.net/dbpbsc?retryWrites=true&w=majority'
 
+//define o modelo  do objeto para o mongoose
 var dbModelObj = mongoose.model('collobjs', {
     objNome: String,
     objDesc: String,
+    objStat: String,
+    objDataIni: String,
+    objDataFim: String,
 })
 
 var objetivos = []

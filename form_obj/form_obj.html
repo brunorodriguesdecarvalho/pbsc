@@ -36,7 +36,7 @@
                 ></textarea>
             </p>
             <p class="rotulo">Status atual:
-                <select name="objStatus">
+                <select name="objStat" id="objStat">
                     <option value="Não Iniciado">Não Iniciado</option>
                     <option value="Em Andamento">Em Andamento</option>
                     <option value="Em Risco">Em Risco</option>
@@ -46,40 +46,36 @@
                 </select>
             </p>
             <p class="rotulo">Data de Início: 
-                <input type="date" name="objDataIni">
+                <input type="date" name="objDataIni" id="objDataIni">
             </p>   
             <p class="rotulo">Data de Encerramento: 
-                <input type="date" name="objDataFim">
+                <input type="date" name="objDataFim" id="objDataFim">
             </p>
             <br>
             <button id="Enviar" class="Enviar">Cadastrar Objetivo</button>
         </form>
-        <br>
-        <hr>
-        <div id="Obj"><h3>Objetivos Registrados</h3></div>
-        <br>
         <script>
-            var socket = io()
             $(() => {
                 $('#Enviar').click(() => {
-                    var objetivo = { objNome: $("#objNome").val(), objDesc: $("#objDesc").val() }
+                    var objetivo = { 
+                        objNome: $("#objNome").val(), 
+                        objDesc: $("#objDesc").val(),
+                        objStat: $("#objStat").val(),
+                        objDataIni: $("#objDataIni").val(),
+                        objDataFim: $("#objDataFim").val()
+                    }
                     novoObjetivo(objetivo)
                 })
                 getObjetivos()
-            })
-            socket.on('objetivos', listarObjetivos)
-            function listarObjetivos(objetivo){
-                $("#Obj").append(`
-                    <h4>${objetivo.objNome}</h4>
-                    <p>${objetivo.objDesc}</p>
-                `)
-            }
+            })            
+            
             function getObjetivos() {
                 $.get(
                     'http://localhost:3000/objetivos',
                     (objetivo) => { objetivo.forEach(listarObjetivos) }
                 )
             }
+
             function novoObjetivo(objetivo) {
                 $.post('http://localhost:3000/objetivos', objetivo)
             }

@@ -2,8 +2,8 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Objetivos</title>
-        <link rel="stylesheet" type="text/css" href="">
+        <title>Lista de Objetivos</title>
+        <link rel="stylesheet" type="text/css" href="./list_obj.css">
         <script 
             src="https://code.jquery.com/jquery-3.4.1.min.js" 
             crossorigin="anonymous">
@@ -16,30 +16,47 @@
         <script src="/socket.io/socket.io.js"></script>
     </head>
     <body>
-        <h1>Lista de Objetivos</h1>
-        <a href="../index.html">Voltar</a>
+        <div id="Obj"><h1>Objetivos Registrados</h1></div>
         <br>
         <script>
             var socket = io()
-            var objetivo = { objNome: $("#objNome").val(), objDesc: $("#objDesc").val() }
-            
-            getObjetivos()
-            listarObjetivos()
-
+            $(() => {
+                $('#Enviar').click(() => {
+                    var objetivo = { 
+                        objNome: $("#objNome").val(), 
+                        objDesc: $("#objDesc").val(),
+                        objStat: $("#objStat").val(),
+                        objDataIni: $("#objDataIni").val(),
+                        objDataFim: $("#objDataFim").val(),
+                    }
+                    novoObjetivo(objetivo)
+                })
+                getObjetivos()
+            })
             socket.on('objetivos', listarObjetivos)
-
+            function listarObjetivos(objetivo){
+                $("#Obj").append(`
+                    <ul>
+                        <div id="stsBall"></div>
+                        <h2>${objetivo.objNome}</h2>
+                        <li><strong>Status atual: </strong>${objetivo.objStat}</li>
+                        <li><strong>Início: </strong>${objetivo.objDataIni}</li>
+                        <li><strong>Fim: </strong>${objetivo.objDataFim}</li>
+                        <li><strong>Descrição: </strong>${objetivo.objDesc}</li>
+                        <li><a href="">Editar</a></li>
+                        <li><a href="">Excluir</a></li>
+                    </ul>
+                    <br>
+                `)
+            }
             function getObjetivos() {
                 $.get(
                     'http://localhost:3000/objetivos',
                     (objetivo) => { objetivo.forEach(listarObjetivos) }
                 )
             }
-            
-            function listarObjetivos(objetivo){
-                $("#Obj").append(`
-                    <h4>${objetivo.objNome}</h4>
-                    <p>${objetivo.objDesc}</p>
-                `)
+            function novoObjetivo(objetivo) {
+                $.post('http://localhost:3000/objetivos', objetivo)
             }
         </script>
     </body>
