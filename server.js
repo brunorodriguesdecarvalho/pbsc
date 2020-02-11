@@ -4,6 +4,7 @@ var app = exp() //define app como a própria função do express
 var http = require('http').Server(app) //chama a biblioteca http e cria um servidor com app
 var io = require('socket.io')(http) //chama o socket.io para o servidor
 var mongoose = require('mongoose') //importa o mongoose para conectar com o o db
+const PORT = process.env.PORT || 5000
 
 app.use(exp.static(__dirname)) //define o diretório do servidor express
 app.use(bodyParser.json()) //usa o bodyparse importado para cuidar do JSON
@@ -44,4 +45,4 @@ mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true}, (err
     console.log('mongo db connectado', err)
 })
 
-http.listen(3000)
+http.listen(PORT, () => console.log(`Rodando na porta ${ PORT }`))
