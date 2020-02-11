@@ -51,12 +51,12 @@
             }
             function getObjetivos() {
                 $.get(
-                    'http://localhost:3000/objetivos',
+                    'http://pbsc-bruno.herokuapp.com/objetivos',
                     (objetivo) => { objetivo.forEach(listarObjetivos) }
                 )
             }
             function novoObjetivo(objetivo) {
-                $.post('http://localhost:3000/objetivos', objetivo)
+                $.post('http://pbsc-bruno.herokuapp.com/objetivos', objetivo)
             }
         </script>
     </body>
